@@ -1,4 +1,5 @@
 require './lib/game.rb'
+require 'pry'
 
 describe Game do
   context "with a one variable basic game" do
@@ -62,6 +63,55 @@ describe Game do
 
         it "should return a fact about the one variable" do
           expect(@fact[:variable]).to eq :a
+        end
+
+        it "should not return the answer" do
+          expect(@fact[:value]).to_not eq @game.answer[:a]
+        end
+      end
+
+      context "with only one more unknown" do
+        before(:each) do
+          @values = @range.delete_if{|v| v == @game.answer[:a]}
+          @popped_value = @values.pop
+          @knowledge = {:a => @values}
+          @new_fact = @game.reveal_new_fact(@knowledge)
+        end
+
+        it "should return the one remaining fact" do
+          expect(@new_fact[:value]).to eq @popped_value
+        end
+      end
+
+      context "with no more unknowns" do
+        before(:each) do
+          @values = @range.delete_if{|v| v == @game.answer[:a]}
+          @knowledge = {:a => @values}
+          @new_fact = @game.reveal_new_fact(@knowledge)
+        end
+
+        it "should return false" do
+          expect(@new_fact).to be false
+        end
+      end
+    end
+
+    describe "#min_value" do
+      it "should return 1" do
+        expect(@game.min_value(:a)).to eq 1
+      end
+    end
+
+    describe "#max_value" do
+      it "should return 10" do
+        expect(@game.min_value(:a)).to eq 10
+      end
+    end
+
+    describe "#permutation_count_with_knowledge" do
+      context "with no prior knowledge" do
+        it "should return 10" do
+          expect(@game.permutation_count_with_knowledge({:a => []}, [])).to eq 10
         end
       end
     end
