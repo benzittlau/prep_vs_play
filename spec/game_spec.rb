@@ -52,5 +52,18 @@ describe Game do
         end
       end
     end
+
+    describe "#reveal_new_fact" do
+      context "without any prior knowledge" do
+        before(:each) do
+          @knowledge = {:a => []}
+          @fact = @game.reveal_new_fact(@knowledge)
+        end
+
+        it "should return a fact about the one variable" do
+          expect(@fact[:variable]).to eq :a
+        end
+      end
+    end
   end
 end

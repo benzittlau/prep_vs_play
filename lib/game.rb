@@ -68,7 +68,8 @@ class Game
     end
 
     remaining_unknowns.delete_if{|_k,v| v.empty?}
-    remaining_unknowns[remaining_unknowns.keys.sample].sample
+    variable = remaining_unknowns.keys.sample
+    {:variable => variable, :value => remaining_unknowns[variable].sample}
   end
 
   def permutation_count_with_knowledge(variable_knowledge, previous_wrong_attemps)
