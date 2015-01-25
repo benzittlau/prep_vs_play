@@ -1,7 +1,7 @@
 class Game
   attr_accessor :variables, :min_value, :max_value
   attr_accessor :attempt_cost, :prep_cost, :reward_of_success, :cost_of_failure
-  attr_accessor :attempt_turn_count, :prep_turn_count
+  attr_accessor :attempt_turn_count, :prep_turn_count, :answer
 
   ATTEMPT = 0
   PREP = 1
@@ -36,7 +36,7 @@ class Game
   end
 
   def possible_values_for(_variable)
-    (@min_value..@max_value)
+    (@min_value..@max_value).to_a
   end
 
   def permutation_count
