@@ -1,5 +1,5 @@
 class Game
-  attr_accessor :variables
+  attr_accessor :variables, :clear_wrong_attempts_on_success
   attr_accessor :attempt_cost, :prep_cost, :reward_of_success, :cost_of_failure
   attr_accessor :attempt_turn_count, :prep_turn_count, :answer
 
@@ -14,13 +14,15 @@ class Game
   def initialize(options = {})
     @variables = options.fetch( :variables, [:a] )
     @min_value = options.fetch( :min_value, 1 )
-    @max_value = options.fetch( :min_value, 10 )
+    @max_value = options.fetch( :max_value, 10 )
 
     @attempt_cost = options.fetch( :attempt_cost, 0)
     @prep_cost = options.fetch( :prep_cost, 0)
 
-    @attempt_turn_count = options.fetch( :attempt_turn_count, 0)
-    @prep_turn_count = options.fetch( :prep_turn_count, 0)
+    @clear_wrong_attempts_on_success = options.fetch( :clear_attempts_on_success, false)
+
+    @attempt_turn_count = options.fetch( :attempt_turn_count, 1)
+    @prep_turn_count = options.fetch( :prep_turn_count, 1)
 
     @reward_of_success = options.fetch( :reward_of_success, 1)
     @cost_of_failure = options.fetch( :cost_of_failure, 0)

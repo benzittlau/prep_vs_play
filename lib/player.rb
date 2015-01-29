@@ -26,7 +26,7 @@ class Player
 
   def current_state
     return {
-      :action => ACTION_NAMES[@action],
+      :action => action_name,
       :action_turns_spent => @action_turns_spent,
       :successes => @successes,
       :failures => @failures,
@@ -34,6 +34,15 @@ class Player
       :probability_of_correct_guess => probability_of_correct_guess
     }
   end
+
+  def attempt_count
+    @successes + @failures
+  end
+
+  def action_name
+    ACTION_NAMES[@action]
+  end
+
 
   def probability_of_correct_guess
     remaining_permutation_count = @game.permutation_count_with_knowledge(@variable_knowledge, @previous_wrong_attempts)
@@ -74,6 +83,9 @@ class Player
     if game.guessed_correctly?(current_guess)
       @successes += 1
       @score += @game.reward_of_success
+      if game.clear_wrong_attempts_on_success
+        @previous_wrong_attempts = []
+      end
     else
       @failures += 1
       @previous_wrong_attempts << current_guess
